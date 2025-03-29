@@ -18,12 +18,12 @@ def get_db():
     finally:
         db.close()
 
-@router.post("/producers/", response_model=None)
+@router.post("", response_model=None)
 def create_producer(email: str, password: str, business_name: str,
                     latitude: float, longitude: float, address: str,
                     description: str, rating: float, db: Session = Depends(get_db)):
     return producerDao.create_producer(db, email, password, business_name, latitude, longitude, address, description, rating)
 
-@router.get("/producers/")
-def get_producers_by_proximity(userLatitude: float, userLongitude: float, db: Session = Depends(get_db)):
-    return producerDao.get_producers_by_proximity(db, userLatitude, userLongitude)
+@router.get("")
+def get_producers_by_proximity(user_latitude: float, user_longitude: float, db: Session = Depends(get_db)):
+    return producerDao.get_producers_by_proximity(db, user_latitude, user_longitude)

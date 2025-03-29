@@ -15,6 +15,6 @@ def get_db():
     finally:
         db.close()
 
-@router.post("/", response_model=Consumer)
+@router.post("", response_model=Consumer)
 def create(self, consumer: Consumer):
     return self.consumer_dao.create(consumer)

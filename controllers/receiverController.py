@@ -16,9 +16,9 @@ def get_db():
     finally:
         db.close()
 
-@router.post("/receivers/", response_model=None)
+@router.post("",response_model=None)
 def create_receiver(email: str, password: str, organization_name:str, latitude: float, longitude: float, address: str,db= Depends(get_db)):
     return receiverDao.create_receiver(db=db,email=email, password=password, organization_name=organization_name, latitude=latitude, longitude=longitude, address=address)
-@router.get("/receivers/")
-def get_receivers_by_proximity(userLatitude: float, userLongitude: float, db: Session = Depends(get_db)):
-    return receiverDao.get_receivers_by_proximity(db, userLatitude, userLongitude)
+@router.get("")
+def get_receivers_by_proximity(user_latitude: float, user_longitude: float, db: Session = Depends(get_db)):
+    return receiverDao.get_receivers_by_proximity(db, user_latitude, user_longitude)
