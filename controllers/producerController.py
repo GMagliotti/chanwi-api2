@@ -18,7 +18,7 @@ def get_db():
     finally:
         db.close()
 
-@router.post("/producers/", response_model=Producer)
+@router.post("/producers/", response_model=None)
 def create_producer(email: str, password: str, business_name: str,
                     latitude: float, longitude: float, address: str,
                     description: str, rating: float, db: Session = Depends(get_db)):
