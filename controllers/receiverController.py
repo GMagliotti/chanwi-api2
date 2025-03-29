@@ -31,9 +31,9 @@ def create_receiver(request: CreateReceiverRequest, db: Session = Depends(get_db
     )
 
 @router.get("/receivers")
-def get_receivers_by_proximity(request: GetReceiversByProximityRequest, db: Session = Depends(get_db)):
+def get_receivers_by_proximity(user_latitude:float,user_longitude:float, db: Session = Depends(get_db)):
     return receiverDao.get_receivers_by_proximity(
         db=db,
-        user_latitude=request.user_latitude,
-        user_longitude=request.user_longitude
+        user_latitude=user_latitude,
+        user_longitude=user_longitude
     )
