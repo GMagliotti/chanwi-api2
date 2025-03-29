@@ -13,6 +13,7 @@ def CreateProducer(producer_data: ProducerCreate, db: Session = Depends(get_db))
     producer = Producer(**producer_data.model_dump())
     return dao.create(producer)
 
+
 @router.get("/")
 def get_producers_by_proximity(user_latitude: float, user_longitude: float, db: Session = Depends(get_db)):
     dao = ProducerDAO(db)
