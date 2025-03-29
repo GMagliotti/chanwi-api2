@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends
 from typing import Optional
 from database.database import SessionLocal
 
-from daos.consumerDao import ConsumerDao
+from daos import consumerDao
 from models.models import Consumer
 
 router = APIRouter(prefix="/consumers", tags=["consumers"])
@@ -15,6 +15,6 @@ def get_db():
     finally:
         db.close()
 
-@router.post("", response_model=Consumer)
-def create(self, consumer: Consumer):
-    return self.consumer_dao.create(consumer)
+@router.post("/consumer", response_model=Consumer)
+def create(consumer: Consumer):
+    return consumerDao.create_consumer(consumer.email, consumer.password, consumer.name, consumer.surname)
