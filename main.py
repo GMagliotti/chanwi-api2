@@ -5,4 +5,5 @@ from controllers import ConsumerController,receiverController, ProducerControlle
 
 app = FastAPI()
 app.include_router(ConsumerController.router, tags=["consumers"])
-app.include_router(receiverController.router, tags=["receiver"])app.include_router(ProducerController.router, tags=["consumers"])
+app.include_router(receiverController.router, tags=["receivers"])
+app.include_router(ProducerController.router, tags=["producers"])
