@@ -1,8 +1,9 @@
 # models.py
-from sqlalchemy import Column, Integer, String, Float,DateTime, ForeignKey,Boolean
+from sqlalchemy import Column, Integer, String, Float, DateTime, ForeignKey,Boolean
 from sqlalchemy.orm import relationship
 from database.database import Base
 from pydantic import BaseModel, EmailStr, Field
+from datetime import datetime
 
 class ProducerSchema(BaseModel):
     id: int = Field(default=None, title="Producer ID")
@@ -76,8 +77,8 @@ class DriveSchema(BaseModel):
     id: int = Field(default=None, title="Drive ID")
     title: str = Field(..., title="Title", description="Title of the drive")
     description: str = Field(None, title="Description", description="Description of the drive")
-    start_time: DateTime = Field(..., title="Start Time", description="Start time of the drive")
-    end_time: DateTime = Field(None, title="End Time", description="End time of the drive")
+    start_time: datetime = Field(..., title="Start Time", description="Start time of the drive")
+    end_time: datetime = Field(None, title="End Time", description="End time of the drive")
     receiver_id: int = Field(..., title="Receiver ID", description="ID of the receiver associated with the drive")
     receiver: ReceiverSchema = Field(None, title="Receiver", description="Receiver associated with the drive")
 
@@ -103,8 +104,8 @@ class PostSchema(BaseModel):
     price: float = Field(..., title="Price", description="Price of the post")
     tag: str = Field(None, title="Tag", description="Tag associated with the post")
     stock: int = Field(..., title="Stock", description="Stock available for the post")
-    start_time: DateTime = Field(..., title="Start Time", description="Start time of the post")
-    end_time: DateTime = Field(None, title="End Time", description="End time of the post")
+    start_time: datetime = Field(..., title="Start Time", description="Start time of the post")
+    end_time: datetime = Field(None, title="End Time", description="End time of the post")
     producer_id: int = Field(..., title="Producer ID", description="ID of the producer associated with the post")
     producer: ProducerSchema = Field(None, title="Producer", description="Producer associated with the post")
     orders: list = Field(default=[], title="Orders", description="List of orders associated with the post")
