@@ -3,7 +3,8 @@ from typing import Optional
 from database.database import SessionLocal
 
 from daos import consumerDao
-from models.models import Consumer
+from models.models import Consumer, ConsumerSchema
+from sqlalchemy.orm import Session
 
 router = APIRouter(prefix="/consumers", tags=["consumers"])
 
@@ -16,5 +17,5 @@ def get_db():
         db.close()
 
 @router.post("/consumer", response_model=None)
-def create(consumer: Consumer):
+def create(consumer: ConsumerSchema, db: Session):
     return consumerDao.create_consumer(consumer.email, consumer.password, consumer.name, consumer.surname)
