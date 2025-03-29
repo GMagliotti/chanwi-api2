@@ -1,11 +1,11 @@
-import datetime
-from models.models import Producer, Post
+from models.models import Producer
 import daos.postDao as postDao
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
-from typing import Optional
 from database.database import SessionLocal, engine
-from datetime import datetime
+from schemas.post import CreatePostRequest, PostResponse
+from typing import List
+
 # Create the database tables if not already created
 Producer.metadata.create_all(bind=engine)
 
@@ -19,29 +19,20 @@ def get_db():
     finally:
         db.close()
 
-@router.post("/producer/{producer_id}/posts", response_model=None)
-def create_post(
-    producer_id: int,
-    title: str,
-    description: str,
-    price: float,
-    tag: str,
-    stock: int,
-    start_time: datetime= datetime.now(),  
-    end_time: Optional[datetime] = None,    
-    db: Session = Depends(get_db)
-):
+@router.post("/producer/{producer_id}/posts", response_model=PostResponse)
+def create_post(producer_id: int, request: CreatePostRequest, db: Session = Depends(get_db)):
     return postDao.create_post(
         producer_id=producer_id,
-        title=title,
-        description=description,
-        price=price,
-        tag=tag,
-        stock=stock,
-        start_time=start_time,
-        end_time=end_time,
-        db=db)
+        title=request.title,
+        description=request.description,
+        price=request.price,
+        tag=request.tag,
+        stock=request.stock,
+        start_time=request.start_time,
+        end_time=request.end_time,
+        db=db
+    )
 
-@router.get("/producer/{producer_id}/posts")
+@router.get("/producer/{producer_id}/posts", response_model=List[PostResponse])
 def get_posts_by_producer(producer_id: int, db: Session = Depends(get_db)):
     return postDao.get_posts_by_producer(producer_id=producer_id, db=db)
