@@ -31,5 +31,5 @@ def create_drive(request: CreateDriveRequest, db: Session = Depends(get_db)):
     )
 
 @router.get("/receivers/{receiver_id}/drives")
-def get_drives_by_receiver(receiver_id: int, db: Session):
+def get_drives_by_receiver(receiver_id: int, db: Session=Depends(get_db)):
     return driveDao.get_drives_by_receiver(receiver_id, db)
