@@ -9,7 +9,7 @@ from schemas.drive import CreateDriveRequest, GetDrivesByReceiverRequest
 # Create the database tables if not already created
 Drive.metadata.create_all(bind=engine)
 
-router = APIRouter()
+router = APIRouter(tags=["drives"])
 
 # Dependency to get the SQLAlchemy session
 def get_db():

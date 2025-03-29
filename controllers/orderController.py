@@ -6,7 +6,7 @@ from daos.orderDao import create, get_orders
 from database.database import SessionLocal
 from schemas.order import CreateOrderRequest, GetOrdersRequest,Order
 
-router = APIRouter()
+router = APIRouter(prefix="/orders", tags=["orders"])
 
 # Dependency to get the SQLAlchemy session
 def get_db():
@@ -16,7 +16,7 @@ def get_db():
     finally:
         db.close()
 
-@router.post("/orders", response_model=None)
+@router.post("/", response_model=None)
 def create_order(request: CreateOrderRequest, db: Session = Depends(get_db)):
     return create(
         id=request.order_id,
@@ -27,7 +27,7 @@ def create_order(request: CreateOrderRequest, db: Session = Depends(get_db)):
         db=db
     )
 
-@router.get("/orders", response_model=List[Order])
+@router.get("/", response_model=List[Order])
 def get_orders(post_id:int,consumer_id:int, db: Session = Depends(get_db)):
     return get_orders(
         post_id=post_id,

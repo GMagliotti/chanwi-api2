@@ -9,7 +9,7 @@ from typing import List
 # Create the database tables if not already created
 Producer.metadata.create_all(bind=engine)
 
-router = APIRouter()
+router = APIRouter(tags=["posts"])
 
 # Dependency to get the SQLAlchemy session
 def get_db():

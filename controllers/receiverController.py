@@ -8,7 +8,7 @@ from schemas.receiver import CreateReceiverRequest, GetReceiversByProximityReque
 # Create the database tables if not already created
 Producer.metadata.create_all(bind=engine)
 
-router = APIRouter()
+router = APIRouter(prefix="/receivers", tags=["receivers"])
 
 # Dependency to get the SQLAlchemy session
 def get_db():
@@ -18,7 +18,7 @@ def get_db():
     finally:
         db.close()
 
-@router.post("/receivers", response_model=CreateReceiverRequest)
+@router.post("/", response_model=CreateReceiverRequest)
 def create_receiver(request: CreateReceiverRequest, db: Session = Depends(get_db)):
     return receiverDao.create_receiver(
         db=db,
@@ -30,7 +30,7 @@ def create_receiver(request: CreateReceiverRequest, db: Session = Depends(get_db
         address=request.address
     )
 
-@router.get("/receivers")
+@router.get("/")
 def get_receivers_by_proximity(user_latitude:float,user_longitude:float, db: Session = Depends(get_db)):
     return receiverDao.get_receivers_by_proximity(
         db=db,
