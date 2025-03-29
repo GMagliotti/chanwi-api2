@@ -1,12 +1,12 @@
 from typing import List
 from sqlalchemy.orm import Session
 from sqlalchemy import select
-from database import Base, get_db
-from models import Receiver
+
+from models.models import Receiver
 from database.schema import ReceiverCreate
 from fastapi import Depends
 import math
-from geoUtils import calculate_distance
+from daos.geoUtils import calculate_distance
 
 
 def create_receiver(db: Session,email: str, password: str, organization_name:str, latitude: float, longitude: float, address: str):

@@ -9,7 +9,7 @@ def create_producer(db: Session, email: str, password: str, business_name: str,
     db_producer = Producer(email=email, password=password, business_name=business_name,
                            latitude=latitude, longitude=longitude, address=address,
                            description=description, rating=rating)
-    breakpoint()
+
     db.add(db_producer)
     db.commit()
     db.refresh(db_producer)

@@ -50,7 +50,7 @@ class Drive(Base):
     title = Column(String, nullable=False)
     description = Column(String(1024), nullable=True)
     start_time = Column(DateTime, nullable=False)
-    end_time = Column(DateTime, nullable=False)
+    end_time = Column(DateTime)
     
     # Foreign key for Receiver
     receiver_id = Column(Integer, ForeignKey('receivers.id'), nullable=False)
@@ -68,7 +68,7 @@ class Post(Base):
     tag = Column(String, nullable=True)
     stock = Column(Integer, nullable=False)
     start_time = Column(DateTime, nullable=False)
-    end_time = Column(DateTime, nullable=False)
+    end_time = Column(DateTime, )
     
     # Foreign key for Producer
     producer_id = Column(Integer, ForeignKey('producers.id'), nullable=False)
