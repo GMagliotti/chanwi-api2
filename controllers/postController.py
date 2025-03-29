@@ -3,6 +3,7 @@ from models.models import Producer, Post
 import daos.postDao as postDao
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
+from typing import Optional
 from database.database import SessionLocal, engine
 from datetime import datetime
 # Create the database tables if not already created
@@ -27,7 +28,7 @@ def create_post(
     tag: str,
     stock: int,
     start_time: datetime= datetime.now(),  
-    end_time: datetime | None=None,    
+    end_time: Optional[datetime] = None,    
     db: Session = Depends(get_db)
 ):
     return postDao.create_post(
