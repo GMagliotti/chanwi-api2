@@ -8,7 +8,7 @@ from database.database import Base
 class Producer(Base):
     __tablename__ = "producers"
 
-    id = Column(Integer, primary_key=True, index=True)
+    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
     email = Column(String, index=True)
     password = Column(String)
     business_name = Column("business_name", String)
@@ -17,6 +17,7 @@ class Producer(Base):
     address = Column(String)
     description = Column(String(length=1024))
     rating = Column(Float)
+    posts = relationship("Post", back_populates="producer")
 
 class Receiver(Base):
     __tablename__="receivers"
@@ -29,6 +30,9 @@ class Receiver(Base):
     longitude=Column(Float)
     address=Column(String)
 
+
+    drives = relationship("Drive", back_populates="receiver")
+
 class Consumer(Base):
     __tablename__ = "consumers"
 
@@ -37,6 +41,7 @@ class Consumer(Base):
     password = Column(String, nullable=False)
     name = Column(String, nullable=False)
     surname = Column(String, nullable=False)
+    orders = relationship("Order", back_populates="consumer")
 
 class Drive(Base):
     __tablename__ = "drives"
@@ -70,6 +75,8 @@ class Post(Base):
     
     # Relationship to Producer (one-to-many)
     producer = relationship("Producer", back_populates="posts")
+    # Relationship to Order (one-to-many)
+    orders = relationship("Order", back_populates="post")
 
 class Order(Base):
     __tablename__ = "orders"

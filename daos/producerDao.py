@@ -1,6 +1,7 @@
 # crud.py
 from sqlalchemy.orm import Session
 from models.models import Producer
+from daos.geoUtils import calculate_distance
 
 def create_producer(db: Session, email: str, password: str, business_name: str,
                     latitude: float, longitude: float, address: str,
@@ -8,6 +9,7 @@ def create_producer(db: Session, email: str, password: str, business_name: str,
     db_producer = Producer(email=email, password=password, business_name=business_name,
                            latitude=latitude, longitude=longitude, address=address,
                            description=description, rating=rating)
+    breakpoint()
     db.add(db_producer)
     db.commit()
     db.refresh(db_producer)
@@ -25,7 +27,4 @@ def get_producers_by_proximity(db: Session, user_latitude: float, user_longitude
 
     return nearby_producers
 
-# Helper function to calculate distance between two geo points
-def calculate_distance(lat1, lon1, lat2, lon2):
-    # You can implement Haversine or other methods to calculate distance
-    pass
+

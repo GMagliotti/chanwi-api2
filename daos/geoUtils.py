@@ -1,4 +1,5 @@
-def calculate_distance(self, lat1: float, lon1: float, lat2: float, lon2: float) -> float:
+import math
+def calculate_distance( lat1: float, lon1: float, lat2: float, lon2: float) -> float:
     # Haversine formula implementation
     R = 6371000  # Earth radius in meters
     φ1 = math.radians(lat1)
