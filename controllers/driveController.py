@@ -1,15 +1,17 @@
 # main.py
-from fastapi import APIRouter, FastAPI, Depends
+from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from database.database import SessionLocal, engine
 from models.models import Drive
 from daos import driveDao
+from schemas.drive import CreateDriveRequest, GetDrivesByReceiverRequest
 
 # Create the database tables if not already created
 Drive.metadata.create_all(bind=engine)
 
 router = APIRouter()
 
+# Dependency to get the SQLAlchemy session
 def get_db():
     db = SessionLocal()
     try:
@@ -17,15 +19,17 @@ def get_db():
     finally:
         db.close()
 
-def create_drive(
-    drive_id: int,
-    producer_id: int,
-    receiver_id: int,
-    start_time: str,
-    end_time: str,
-    db: Session
-):
-    return driveDao.create_drive(drive_id, producer_id, receiver_id, start_time, end_time, db)
+@router.post("/receivers/{receiver_id}/drives", response_model=None)
+def create_drive(request: CreateDriveRequest, db: Session = Depends(get_db)):
+    return driveDao.create_drive(
+        drive_id=request.drive_id,
+        producer_id=request.producer_id,
+        receiver_id=request.receiver_id,
+        start_time=request.start_time,
+        end_time=request.end_time,
+        db=db
+    )
 
+@router.get("/receivers/{receiver_id}/drives")
 def get_drives_by_receiver(receiver_id: int, db: Session):
     return driveDao.get_drives_by_receiver(receiver_id, db)
