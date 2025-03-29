@@ -19,7 +19,7 @@ def get_db():
     finally:
         db.close()
 
-@router.post("/produced/{producer_id}/posts", response_model=None)
+@router.post("/producer/{producer_id}/posts", response_model=None)
 def create_post(
     producer_id: int,
     title: str,
@@ -42,6 +42,6 @@ def create_post(
         end_time=end_time,
         db=db)
 
-@router.get("/produced/{producer_id}/posts")
+@router.get("/producer/{producer_id}/posts")
 def get_posts_by_producer(producer_id: int, db: Session = Depends(get_db)):
     return postDao.get_posts_by_producer(producer_id=producer_id, db=db)
