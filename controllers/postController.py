@@ -17,7 +17,7 @@ def get_db():
     finally:
         db.close()
 @router.post("/produced/{producer_id}/posts",response_model=None)
-def create_post(producer_id: int, title: str, description: str, price:float,tag:str,stock:int,start_time:datetime, end_time:datetime,db: Session = Depends(get_db)):
+def create_post(producer_id: int, title: str, description: str, price:float,tag:str,stock:int,start_time:datetime.datetime, end_time:datetime,db: Session = Depends(get_db)):
     return postDao.create_post(producer_id=producer_id,title=title,description=description,price=price,tag=tag,stock=stock,start_time=start_time,end_time=end_time, db=db)
 
 @router.get("/produced/{producer_id}/posts")
