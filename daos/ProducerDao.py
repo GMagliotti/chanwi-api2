@@ -23,7 +23,7 @@ class ProducerDAO:
     def get_by_proximity(self, latitude: float, longitude: float, max_distance_in_meters: int = 1000) -> list[Producer]:
         if latitude is None or longitude is None:
             return self.get_all()
-        producers = self.get_all()
+        producers = self.db.query(Producer).join(Post, Producer.id == Post.producer_id).group_by(Producer.id).having(func.count(Post.id) > 1).all()
         nearby_producers = []
 
         for producer in producers:
