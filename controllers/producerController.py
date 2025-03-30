@@ -1,29 +1,20 @@
-# main.py
-from fastapi import APIRouter, FastAPI, Depends
+from schemas.producer import ProducerCreate
+from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
-from database.database import SessionLocal, engine
+from database.database import get_db
 from models.models import Producer
-from daos import producerDao as producerDao
+from daos.ProducerDao import ProducerDAO
 
-# Create the database tables if not already created
-Producer.metadata.create_all(bind=engine)
+router = APIRouter(prefix = "/producers", tags=["producers"])
 
-router = APIRouter()
+@router.post("/", response_model=ProducerCreate)
+def CreateProducer(producer_data: ProducerCreate, db: Session = Depends(get_db)):
+    dao = ProducerDAO(db)
+    producer = Producer(**producer_data.model_dump())
+    return dao.create(producer)
 
-# Dependency to get the SQLAlchemy session
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
 
-@router.post("", response_model=None)
-def create_producer(email: str, password: str, business_name: str,
-                    latitude: float, longitude: float, address: str,
-                    description: str, rating: float=0, db: Session = Depends(get_db)):
-    return producerDao.create_producer(db, email, password, business_name, latitude, longitude, address, description, rating)
-
-@router.get("")
+@router.get("/")
 def get_producers_by_proximity(user_latitude: float, user_longitude: float, db: Session = Depends(get_db)):
-    return producerDao.get_producers_by_proximity(db, user_latitude, user_longitude)
+    dao = ProducerDAO(db)
+    return dao.get_by_proximity(user_latitude, user_longitude)
