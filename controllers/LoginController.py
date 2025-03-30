@@ -20,7 +20,7 @@ def login(credentials: UserCredentials, db: Session = Depends(get_db)):
     if not role:
         raise HTTPException(status_code=400, detail="Invalid role")
     # Assuming you have a function to verify username and password
-    user = db.query(role).filter(role.username == credentials.username, role.password == credentials.password).first()
+    user = db.query(role).filter(role.email == credentials.email, role.password == credentials.password).first()
     if not user:
         raise HTTPException(status_code=401, detail="Invalid credentials")
     return {"message": "Login successful", "user_id": user.id}
