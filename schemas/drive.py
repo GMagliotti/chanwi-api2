@@ -4,7 +4,8 @@ from typing import Optional
 
 # Schema for creating a drive
 class CreateDriveRequest(BaseModel):
-    producer_id: int
+    title:str
+    desc:str
     receiver_id: int
     start_time: datetime
     end_time: Optional[datetime] = None

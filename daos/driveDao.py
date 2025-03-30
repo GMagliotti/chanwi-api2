@@ -4,8 +4,8 @@ import datetime as dt
 
 from models.models import Drive, Receiver
 
-def create_drive(db: Session, title: str, description: str, startTime: dt.datetime, endTime: dt.datetime, receiver: Receiver) -> Drive:
-    db_drive = Drive(title=title, description=description, startTime=startTime, endTime=endTime, receiver=receiver)
+def create_drive(db: Session, title: str, description: str, start_time: dt.datetime, end_time: dt.datetime, receiver_id:int) -> Drive:
+    db_drive = Drive(title=title, description=description, start_time=start_time, end_time=end_time, receiver_id=receiver_id)
     db.add(db_drive)
     db.commit()
     db.refresh(db_drive)
