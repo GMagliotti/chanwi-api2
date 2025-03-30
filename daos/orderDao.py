@@ -17,7 +17,7 @@ def create(quantity:int,received:bool,consumer_id:int,post_id:int, db: Session) 
     db.refresh(order)  # Refresh the instance to get the generated ID
     db.commit()
     return order
-def get_orders_dao(post_id: Optional[int], consumer_id: Optional[int], db: Session) -> List[Order]:
+def get_orders_dao(post_id: Optional[int], consumer_id: Optional[int],incompleted_orders_only:bool, db: Session) -> List[Order]:
     """
     Retrieve orders filtered by post_id and/or consumer_id.
     """
@@ -26,6 +26,8 @@ def get_orders_dao(post_id: Optional[int], consumer_id: Optional[int], db: Sessi
         query = query.filter(Order.post_id == post_id)
     if consumer_id is not None:
         query = query.filter(Order.consumer_id == consumer_id)
+    if incompleted_orders_only:
+       query= query.filter(Order.received==False)
     return query.all()
 def complete_order_from_id(db:Session,order_id:int):
     order=db.query(Order).filter(Order.id==order_id).first()

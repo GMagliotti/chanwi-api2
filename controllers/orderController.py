@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends,HTTPException
-from typing import List
+from typing import List,Optional
 from sqlalchemy.orm import Session
 
 from daos.orderDao import create, get_orders_dao, complete_order_from_id
@@ -27,10 +27,11 @@ def create_order(request: CreateOrderRequest, db: Session = Depends(get_db)):
     )
 
 @router.get("/", response_model=List[Order])
-def get_orders(post_id:int,consumer_id:int, db: Session = Depends(get_db)):
+def get_orders(post_id:Optional[int]=None,consumer_id:Optional[int]=None,incompleted_orders_only:bool=False, db: Session = Depends(get_db)):
     return get_orders_dao(
         post_id=post_id,
         consumer_id=consumer_id,
+        incompleted_orders_only=incompleted_orders_only,
         db=db
     )
     
