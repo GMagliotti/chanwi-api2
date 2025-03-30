@@ -5,3 +5,9 @@ class ConsumerCreate(BaseModel):
     password: str
     name: str
     surname: str
+    
+class ConsumerResponse(BaseModel):
+    email: str
+    name: str
+    surname: str
+    id:int
