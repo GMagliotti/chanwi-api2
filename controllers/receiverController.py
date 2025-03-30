@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends,HTTPException
 from sqlalchemy.orm import Session
 from database.database import SessionLocal, engine
 from models.models import Producer
@@ -37,3 +37,9 @@ def get_receivers_by_proximity(user_latitude:float,user_longitude:float, db: Ses
         user_latitude=user_latitude,
         user_longitude=user_longitude
     )
+@router.get("/{receiver_id}",response_model=CreateReceiverResponse)
+def find_receiver_by_id(receiver_id:int,db:Session=Depends(get_db)):
+    receiver=receiverDao.find_receiver_by_id(db=db,receiver_id=receiver_id)
+    if receiver is None:
+        raise HTTPException(status_code=404,detail="Receiver not found")
+    return receiver
