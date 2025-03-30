@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 from database.database import SessionLocal
 from models.models import Receiver, Producer, Consumer
 
-router = APIRouter(prefix='login', tags=["Login"])
+router = APIRouter(prefix='/login', tags=["Login"])
 
 def get_db():
     db = SessionLocal()
