@@ -1,4 +1,4 @@
-from schemas.producer import ProducerCreate
+from schemas.producer import ProducerCreate,ProducerResponse
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from database.database import get_db
@@ -7,7 +7,7 @@ from daos.ProducerDao import ProducerDAO
 
 router = APIRouter(prefix = "/producers", tags=["producers"])
 
-@router.post("/", response_model=ProducerCreate)
+@router.post("/", response_model=ProducerResponse)
 def CreateProducer(producer_data: ProducerCreate, db: Session = Depends(get_db)):
     dao = ProducerDAO(db)
     producer = Producer(**producer_data.model_dump())

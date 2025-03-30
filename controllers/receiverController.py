@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from database.database import SessionLocal, engine
 from models.models import Producer
 from daos import receiverDao
-from schemas.receiver import CreateReceiverRequest, GetReceiversByProximityRequest
+from schemas.receiver import CreateReceiverRequest,CreateReceiverResponse, GetReceiversByProximityRequest
 
 # Create the database tables if not already created
 Producer.metadata.create_all(bind=engine)
@@ -18,7 +18,7 @@ def get_db():
     finally:
         db.close()
 
-@router.post("/", response_model=CreateReceiverRequest)
+@router.post("/", response_model=CreateReceiverResponse)
 def create_receiver(request: CreateReceiverRequest, db: Session = Depends(get_db)):
     return receiverDao.create_receiver(
         db=db,

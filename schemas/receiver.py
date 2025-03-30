@@ -9,6 +9,13 @@ class CreateReceiverRequest(BaseModel):
     latitude: float
     longitude: float
     address: str
+class CreateReceiverResponse(BaseModel):
+    email: str
+    id:int
+    organization_name: str
+    latitude: float
+    longitude: float
+    address: str
 
 # Schema for getting receivers by proximity
 class GetReceiversByProximityRequest(BaseModel):
