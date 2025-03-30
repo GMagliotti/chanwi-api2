@@ -1,8 +1,8 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends,HTTPException
 from typing import List
 from sqlalchemy.orm import Session
 
-from daos.orderDao import create, get_orders_dao
+from daos.orderDao import create, get_orders_dao, complete_order_from_id
 from database.database import SessionLocal
 from schemas.order import CreateOrderRequest, GetOrdersRequest,Order
 
@@ -33,3 +33,10 @@ def get_orders(post_id:int,consumer_id:int, db: Session = Depends(get_db)):
         consumer_id=consumer_id,
         db=db
     )
+    
+@router.post("/{order_id}")
+def complete_order(order_id:int,db:Session=Depends(get_db)):
+    order=complete_order_from_id(order_id=order_id,db=db)
+    if order is None:
+        raise HTTPException(status_code=404,detail="Order non existent")
+    return order
