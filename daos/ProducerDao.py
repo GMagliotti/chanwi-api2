@@ -39,8 +39,10 @@ class ProducerDAO:
                 self.db.query(Producer)
                 .join(Post, Producer.id == Post.producer_id)
                 .group_by(Producer.id)
-                .having(func.count(Post.id) > 1) 
+                .having(func.count(Post.id) >= 1) 
                 .all())
         else:
             result = self.db.query(Producer).all()
         return result
+    def find_by_id(self,producer_id:int):
+        return self.db.query(Producer).filter(Producer.id==producer_id).first()

@@ -27,3 +27,11 @@ def get_orders_dao(post_id: Optional[int], consumer_id: Optional[int], db: Sessi
     if consumer_id is not None:
         query = query.filter(Order.consumer_id == consumer_id)
     return query.all()
+def complete_order_from_id(db:Session,order_id:int):
+    order=db.query(Order).filter(Order.id==order_id).first()
+    if order is None:
+        return None
+    order.received=True
+    db.commit()
+    return order
+    

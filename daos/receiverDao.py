@@ -27,3 +27,6 @@ def get_receivers_by_proximity(db: Session, user_latitude: float, user_longitude
             nearby_receivers.append(receiver)
 
     return nearby_receivers
+
+def find_receiver_by_id(db:Session,receiver_id:int):
+    return db.query(Receiver).filter(Receiver.id==receiver_id).first()
