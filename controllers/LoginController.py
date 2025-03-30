@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Depends, HTTPException
 from schemas.userCredentials import UserCredentials
 from sqlalchemy.orm import Session
-from database import SessionLocal
-from models import Receiver, Producer, Consumer
+from database.database import SessionLocal
+from models.models import Receiver, Producer, Consumer
 
 router = APIRouter(prefix='login', tags=["Login"])
 
