@@ -1,5 +1,5 @@
 from schemas.producer import ProducerCreate,ProducerResponse
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends,HTTPException
 from sqlalchemy.orm import Session
 from database.database import get_db
 from models.models import Producer
@@ -23,3 +23,11 @@ def get_all_producers(with_posts:bool=False,db:Session=Depends(get_db)):
 def get_producers_by_proximity(user_latitude: float, user_longitude: float, db: Session = Depends(get_db)):
     dao = ProducerDAO(db)
     return dao.get_by_proximity(user_latitude, user_longitude)
+
+@router.get("/{producer_id}")
+def find_producer(producer_id:int,db:Session=Depends(get_db)):
+    dao=ProducerDAO(db)
+    producer=dao.find_by_id(producer_id)
+    if not producer:
+        raise HTTPException(status_code=404,detail="Producer not found")
+    return producer
