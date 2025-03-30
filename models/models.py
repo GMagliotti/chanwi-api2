@@ -28,7 +28,7 @@ class Producer(Base):
     longitude = Column(Float)
     address = Column(String)
     description = Column(String(length=1024))
-    rating = Column(Float)
+    rating = Column(Float,default=0)
     posts = relationship("Post", back_populates="producer")
 
 class ReceiverSchema(BaseModel):
@@ -44,7 +44,7 @@ class ReceiverSchema(BaseModel):
 class Receiver(Base):
     __tablename__="receivers"
 
-    id=Column(Integer, primary_key=True,index=True)
+    id=Column(Integer, primary_key=True,index=True,autoincrement=True)
     email=Column(String)
     password=Column(String)
     organization_name=Column(String)
@@ -66,7 +66,7 @@ class ConsumerSchema(BaseModel):
 class Consumer(Base):
     __tablename__ = "consumers"
 
-    id = Column(Integer, primary_key=True, index=True)
+    id = Column(Integer, primary_key=True, index=True,autoincrement=True)
     email = Column(String, nullable=False)
     password = Column(String, nullable=False)
     name = Column(String, nullable=False)
@@ -85,7 +85,7 @@ class DriveSchema(BaseModel):
 class Drive(Base):
     __tablename__ = "drives"
 
-    id = Column(Integer, primary_key=True, index=True)
+    id = Column(Integer, primary_key=True, index=True,autoincrement=True)
     title = Column(String, nullable=False)
     description = Column(String(1024), nullable=True)
     start_time = Column(DateTime, nullable=False)
