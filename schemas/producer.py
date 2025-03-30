@@ -9,3 +9,12 @@ class ProducerCreate(BaseModel):
     address: str
     description: str 
     rating: float
+
+class ProducerResponse(BaseModel): 
+    email: str 
+    id:int
+    business_name: str
+    latitude: float
+    longitude: float 
+    address: str
+    description: str 
