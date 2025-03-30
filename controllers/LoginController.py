@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException
-from schemas import UserCredentials
+from schemas.userCredentials import UserCredentials
 from sqlalchemy.orm import Session
 from database import SessionLocal
 from models import Receiver, Producer, Consumer
