@@ -3,7 +3,6 @@ from typing import Optional
 
 # Schema for creating an order
 class CreateOrderRequest(BaseModel):
-    order_id: int
     quantity: int
     consumer_id: int
     post_id: int

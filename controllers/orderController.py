@@ -16,10 +16,9 @@ def get_db():
     finally:
         db.close()
 
-@router.post("/", response_model=None)
+@router.post("/", response_model=Order)
 def create_order(request: CreateOrderRequest, db: Session = Depends(get_db)):
     return create(
-        id=request.order_id,
         quantity=request.quantity,
         received=request.received,
         consumer_id=request.consumer_id,

@@ -3,9 +3,8 @@ from models.models import Order,Post  # Assuming you have an Order SQLAlchemy mo
 from typing import List, Optional
 import math
 
-def create( id:int,quantity:int,received:int,consumer_id:int,post_id:int, db: Session) -> Order:
+def create(quantity:int,received:bool,consumer_id:int,post_id:int, db: Session) -> Order:
     order = Order(
-        id=id,
         quantity=quantity,
         received=received,
         consumer_id=consumer_id,
@@ -13,10 +12,10 @@ def create( id:int,quantity:int,received:int,consumer_id:int,post_id:int, db: Se
     )
     db.add(order)
     db.commit()
-    post=db.query(Post).filter(Post.id==id).first()
-    post.stock-=math.min(post.stock,quantity)
+    post=db.query(Post).filter(Post.id==post_id).first()
+    post.stock-=min(post.stock,quantity)
     db.refresh(order)  # Refresh the instance to get the generated ID
-    db.flush(post)
+    db.commit()
     return order
 def get_orders(post_id: Optional[int], consumer_id: Optional[int], db: Session) -> List[Order]:
     """
