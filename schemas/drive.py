@@ -4,7 +4,6 @@ from typing import Optional
 
 # Schema for creating a drive
 class CreateDriveRequest(BaseModel):
-    drive_id: int
     producer_id: int
     receiver_id: int
     start_time: datetime

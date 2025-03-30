@@ -22,7 +22,6 @@ def get_db():
 @router.post("/receivers/{receiver_id}/drives", response_model=None)
 def create_drive(request: CreateDriveRequest, db: Session = Depends(get_db)):
     return driveDao.create_drive(
-        drive_id=request.drive_id,
         producer_id=request.producer_id,
         receiver_id=request.receiver_id,
         start_time=request.start_time,
