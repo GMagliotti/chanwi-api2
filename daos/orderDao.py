@@ -17,7 +17,7 @@ def create(quantity:int,received:bool,consumer_id:int,post_id:int, db: Session) 
     db.refresh(order)  # Refresh the instance to get the generated ID
     db.commit()
     return order
-def get_orders(post_id: Optional[int], consumer_id: Optional[int], db: Session) -> List[Order]:
+def get_orders_dao(post_id: Optional[int], consumer_id: Optional[int], db: Session) -> List[Order]:
     """
     Retrieve orders filtered by post_id and/or consumer_id.
     """

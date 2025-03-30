@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends
 from typing import List
 from sqlalchemy.orm import Session
 
-from daos.orderDao import create, get_orders
+from daos.orderDao import create, get_orders_dao
 from database.database import SessionLocal
 from schemas.order import CreateOrderRequest, GetOrdersRequest,Order
 
@@ -28,7 +28,7 @@ def create_order(request: CreateOrderRequest, db: Session = Depends(get_db)):
 
 @router.get("/", response_model=List[Order])
 def get_orders(post_id:int,consumer_id:int, db: Session = Depends(get_db)):
-    return get_orders(
+    return get_orders_dao(
         post_id=post_id,
         consumer_id=consumer_id,
         db=db
