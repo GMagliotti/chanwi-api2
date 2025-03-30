@@ -2,8 +2,9 @@ from sqlalchemy.orm import Session
 from sqlalchemy.future import select
 from fastapi import Depends
 from database.database import get_db
-from models.models import Producer
+from models.models import Producer,Post
 import daos.geoUtils as GeoUtils
+from sqlalchemy import func
 
 class ProducerDAO:
     def __init__(self, db: Session = Depends(get_db)):
@@ -31,3 +32,15 @@ class ProducerDAO:
                 nearby_producers.append(producer)
             
         return nearby_producers
+    
+    def get_all_producers(self,with_posts:bool):
+        if with_posts:
+            result = (
+                self.db.query(Producer)
+                .join(Post, Producer.id == Post.producer_id)
+                .group_by(Producer.id)
+                .having(func.count(Post.id) > 1) 
+                .all())
+        else:
+            result = self.db.query(Producer).all()
+        return result
